@@ -39,5 +39,34 @@ internal class Program
     {
       Console.WriteLine($"Имя: {contact.Name}, фамилия: {contact.LastName}");
     }
+
+    var pages = Math.Ceiling((double)phoneBook.Count() / 3);
+
+    Console.WriteLine();
+
+    Console.WriteLine("Введите номер страницы:");
+
+    while (true)
+    {
+      var input = Console.ReadKey().KeyChar;
+
+      var parsed = Int32.TryParse(input.ToString(), out int pageNumber);
+
+      if (!parsed || pageNumber < 1 || pageNumber > pages)
+      {
+        Console.WriteLine();
+        Console.WriteLine("Страницы не существует");
+      }
+      else
+      {
+        var pageContent = phoneBook.Skip((pageNumber - 1) * 3).Take(3);
+        Console.WriteLine();
+
+        foreach (var entry in pageContent)
+          Console.WriteLine(entry.Name + " " + entry.LastName + ": " + entry.PhoneNumber);
+
+        Console.WriteLine();
+      }
+    }
   }
 }
